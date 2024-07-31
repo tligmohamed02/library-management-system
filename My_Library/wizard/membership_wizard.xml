@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_membership_wizard_form" model="ir.ui.view">
+        <field name="name">Membership wizard Form</field>
+        <field name="model">library.membership.wizard</field>
+        <field name="arch" type="xml">
+            <form string="membership wizard">
+<!--                <header>-->
+<!--                    <button name="action_renew_membership" type="object" class="btn btn-secondary" string="Renew Membership"/>-->
+<!--                </header>-->
+                <sheet>
+
+                    <div class="oe_title">
+                        <label for="ref"/>
+                        <h1>
+                            <field name="ref"/>
+                        </h1>
+                        <label for="membership_type"/>
+                        <h3>
+                            <field name="membership_type"/>
+                        </h3>
+                    </div>
+                    <group>
+                        <group string="Renewal Details">
+
+                            <field name="membership_number" attrs="{'readonly':[('membership_number_readonly', '==', 1)]}"/>
+                            <field name="membership_number_readonly" invisible="1"/>
+                            <field name="renewal_amount"/>
+                            <field name="member_id"/>
+                        </group>
+                        <group string="Expiry Action">
+                            <field name="expiry_date"/>
+                            <field name="expiry_email"/>
+                        </group>
+                    </group>
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="membership_view_tree" model="ir.ui.view">
+        <field name="name">membership.tree</field>
+        <field name="model">library.membership.wizard</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="member_id"/>
+                <field name="membership_number"/>
+                <field name="renewal_amount"/>
+                <field name="expiry_date"/>
+                <field name="expiry_email"/>
+            </tree>
+        </field>
+    </record>
+
+
+     <record id="action_membership" model="ir.actions.act_window">
+        <field name="name">Membership</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">library.membership.wizard</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+     <menuitem
+            id="menu_membership"
+            parent="menu_library_members"
+            name="Membership"
+            action="action_membership"
+            sequence="30"/>
+
+
+
+</odoo>
