@@ -8,14 +8,10 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="action_send_email" type="object" class="btn btn-secondary" string="Send Mail"/>
-                    <button name="action_block_member" type="object" class="btn btn-secondary" string="Block" groups="My_Library.library_manager_group"
+                    <button name="action_block_member" type="object" class="btn btn-secondary" string="Block"
                             attrs="{'invisible':[('states', '==', 'blocked')]}"/>
-                    <button name="action_unblock_member" type="object" class="btn btn-secondary" string="Unblock"
-                            attrs="{'invisible':[('states', '==', 'active')]}"/>
-
-                      <button name="action_membership_wizard" type="object" class="btn btn-secondary" string="Membership"/>
-
+                    <button name="action_unblock_member" type="object" class="btn btn-secondary" string="Unblock" groups="My_Library.library_manager_group"
+                            attrs="{'invisible':['|', ('states', '==', 'active'), ('states', '==', 'terminated')]}"/>
                     <field name="states" widget="statusbar"/>
                 </header>
                 <sheet>
@@ -26,7 +22,7 @@
                                 <span class="o_stat_text">Borrowed Book</span>
                             </div>
                         </button>
-                         <button name="action_membership_wizard" type="object" icon="fa-book">
+                         <button name="action_open_membership" type="object" icon="fa-user">
                             <div class="o_stat_info">
                                 <span class="o_stat_text">Membership</span>
                             </div>
@@ -34,7 +30,6 @@
                     </div>
                     <group>
                     <group string="General Info">
-                        <field name="update1" invisible="1"/>
                         <field name="name"/>
                         <field name="email"/>
                         <field name="image_1920"/>
@@ -68,9 +63,8 @@
             <tree>
                 <field name="name"/>
                 <field name="user_id"/>
-<!--                <field name="membership_number"/>-->
                 <field name="nb_of_borrowed_book"/>
-                 <field name="states" decoration-success="states =='active'" decoration-danger="states =='blocked'" widget="badge"/>
+                 <field name="states" decoration-success="states =='active'" decoration-info="states == 'terminated'" decoration-danger="states =='blocked'" widget="badge"/>
             </tree>
         </field>
     </record>
@@ -116,8 +110,8 @@
         </field>
     </record>
 
-     <record id="action_membership_states" model="ir.cron">
-        <field name="name">membership.states</field>
+     <record id="action_member_states" model="ir.cron">
+        <field name="name">member.membership.states</field>
         <field name="model_id" ref="model_res_partner"/>
         <field name="state">code</field>
         <field name="interval_number">1</field>
@@ -125,7 +119,7 @@
         <field name="numbercall">-1</field>
         <field name="active">1</field>
         <field name="code">
-            model.membership_states()
+            model.member_membership_states()
         </field>
     </record>
 
@@ -180,10 +174,6 @@
         <field name="view_mode">tree,form</field>
         <field name="context">{'tree_view_ref': 'My_Library.member_view_trees',
             'form_view_ref': 'My_Library.member_view_form'}</field>
-<!--        <field name="view_ids"-->
-<!--               eval="[(5, 0, 0),-->
-<!--                          (0, 0, {'view_mode': 'tree', 'view_id': ref('My_Library.member_view_tree')}),-->
-<!--                          (0, 0, {'view_mode': 'form', 'view_id': ref('My_Library.member_view_form')})]"/>-->
 
     </record>
 
@@ -201,61 +191,5 @@
             action="action_memberss"
             sequence="10"/>
 
-    <!--    <record id="action_member_late" model="ir.cron">-->
-    <!--        <field name="name">member.late</field>-->
-    <!--        <field name="model_id" ref="model_res_partner"/>-->
-    <!--        <field name="state">code</field>-->
-    <!--        <field name="interval_number">1</field>-->
-    <!--        <field name="interval_type">days</field>-->
-    <!--        <field name="numbercall">-1</field>-->
-    <!--        <field name="active">1</field>-->
-    <!--        <field name="code">-->
-    <!--            model.is_late()-->
-    <!--        </field>-->
-    <!--    </record>-->
-
-
-<!--&lt;!&ndash;        comment&ndash;&gt;-->
-<!--            <record id="view_members_form" model="ir.ui.view">-->
-<!--                <field name="name">members</field>-->
-<!--                <field name="model">res.partner</field>-->
-<!--                <field name="inherit_id" ref="base.view_partner_form"/>-->
-<!--                <field name="priority" eval="4"/>-->
-<!--                <field name="arch" type="xml">-->
-<!--                    <xpath expr="//field[@name='phone']" position="after">-->
-<!--                        <field name="borrowed_book" widget="many2many_tags" style="display:block;"/>-->
-<!--                    </xpath>-->
-<!--                    &lt;!&ndash;            <xpath expr="//field[@name='vat']" position="after">&ndash;&gt;-->
-<!--                    &lt;!&ndash;                    <field name="nb_of_borrowed_book"/>&ndash;&gt;-->
-<!--                    &lt;!&ndash;            </xpath>&ndash;&gt;-->
-<!--                    <xpath expr="//field[@name='vat']" position="after">-->
-<!--                        <field name="borrowed_book" widget="many2many_tags"/>-->
-<!--                    </xpath>-->
-<!--                    <xpath expr="//field[@name='vat']" position="attributes">-->
-<!--                        <attribute name="invisible">1</attribute>-->
-<!--                    </xpath>-->
-<!--                    &lt;!&ndash;            <xpath expr="//field[@name='sale']" position="attributes">&ndash;&gt;-->
-<!--                    &lt;!&ndash;                 <attribute name="invisible">1</attribute>&ndash;&gt;-->
-<!--                    &lt;!&ndash;            </xpath>&ndash;&gt;-->
-<!--                    <xpath expr="//field[@name='category_id']" position="attributes">-->
-<!--                        <attribute name="invisible">1</attribute>-->
-<!--                    </xpath>-->
-<!--                    <xpath expr="//field[@name='website']" position="attributes">-->
-<!--                        <attribute name="invisible">1</attribute>-->
-<!--                    </xpath>-->
-<!--                    <xpath expr="//field[@name='mobile']" position="attributes">-->
-<!--                        <attribute name="invisible">1</attribute>-->
-<!--                    </xpath>-->
-<!--                    <xpath expr="//field[@name='title']" position="attributes">-->
-<!--                        <attribute name="invisible">1</attribute>-->
-<!--                    </xpath>-->
-<!--                    <xpath expr="//field[@name='function']" position="attributes">-->
-<!--                        <attribute name="invisible">1</attribute>-->
-<!--                    </xpath>-->
-<!--                </field>-->
-<!--            </record>-->
 
 </odoo>
-
-        <!--view_ids-->
-        <!--priority eval-->

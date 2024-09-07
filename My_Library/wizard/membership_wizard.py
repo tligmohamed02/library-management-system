@@ -108,5 +108,4 @@ class MembershipWizard(models.Model):
             member.states = 'active'
             member.membership_id = res.id
             res.membership_number_readonly = 1
-            print(member.membership_number)
             return res

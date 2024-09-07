@@ -20,15 +20,11 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-<!--                    <button name="action_available" type="object" class="btn btn-secondary" string="Set To Available"-->
-<!--                            attrs="{'invisible':[('states', '==', 'available')]}"/>-->
-<!--                    <button name="action_borrowed" type="object" class="btn btn-secondary" string="Set To Borrowed"-->
-<!--                            attrs="{'invisible':[('states', '==', 'borrowed')]}"/>-->
                     <field name="states" widget="statusbar"/>
                 </header>
                 <sheet>
                     <div name="button_box" class="oe_button_box">
-                        <button name="action_open_authors" type="object" icon="fa-user" string="Author"/>
+                        <button name="action_open_authors" type="object" icon="fa-user" string="Author" groups="My_Library.library_manager_group"/>
                     </div>
                     <div class="oe_title">
                         <label for="title"/>
@@ -40,7 +36,6 @@
                         <group string="General Info">
                             <field name="book_stock"/>
                             <field name="nb_book_available"/>
-                            <field name="update" invisible="1"/>
                             <field name="publication_date"/>
                             <field name="user_id"/>
                         </group>
@@ -51,10 +46,6 @@
                         <group string="Author Info ">
                             <field name="author_id"/>
                             <field name="author_img" widget="image" style="width:200px;height:200px"/>
-                        </group>
-                         <group string="Member Info ">
-                            <field name="member_name"/>
-                            <field name="member_image" widget="image" style="width:200px;height:200px"/>
                         </group>
                     </group>
                 </sheet>
@@ -75,9 +66,9 @@
                 <field name="title"/>
                 <field name="publication_date"/>
                 <field name="user_id" widget="many2one_avatar"/>
-<!--                <field name="states"-->
-<!--                       decoration-success="states =='available'" decoration-info="states == 'borrowed'" decoration-danger="states =='overdue'"-->
-<!--                       widget="badge"/>-->
+                <field name="states"
+                       decoration-success="states =='available'" decoration-danger="states =='not_available'"
+                       widget="badge"/>
             </tree>
         </field>
     </record>

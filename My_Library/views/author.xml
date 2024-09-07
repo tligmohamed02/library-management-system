@@ -103,11 +103,6 @@
                                         Name :
                                         <field name="name"/>
                                     </li>
-                                    <!--                                    <li>-->
-                                    <!--                                        ISBN :-->
-                                    <!--                                        <field name="isbn"/>-->
-                                    <!--                                    </li>-->
-                                    <!--                                    -->
                                 </ul>
                             </div>
                         </div>

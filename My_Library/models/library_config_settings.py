@@ -1,9 +1,12 @@
-
-
 from odoo import fields, models
 
 
 class ResConfigSettings(models.TransientModel):
+    """
+            Modèle pour configurer les paramètres de l'application de bibliothèque.
+            Hérite de 'res.config.settings' pour stocker les paramètres globaux du module My_Library
+    """
+
     _inherit = 'res.config.settings'
 
     daily_fine_rate = fields.Integer(config_parameter='My_Library.daily_fine_rate')

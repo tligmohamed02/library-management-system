@@ -13,7 +13,7 @@
         'views/menu.xml',
         'views/books.xml',
         'views/author.xml',
-        'views/members.xml',
+        'views/member.xml',
         'views/library_config_settings_views.xml',
         'views/borrow_book.xml',
         'views/membership.xml',

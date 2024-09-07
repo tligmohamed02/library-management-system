@@ -6,10 +6,4 @@
             web_icon="My_Library, static/description/library_icon.png"
     />
 
-<!--    <menuitem-->
-<!--            id="menu_library_data"-->
-<!--            name="Data"-->
-<!--            parent="menu_library_root"-->
-<!--    />-->
-
 </odoo>
