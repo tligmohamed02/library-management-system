@@ -16,7 +16,7 @@ class Members(models.Model):
     membership_id = fields.Many2one('library.membership')
     membership_number = fields.Integer(readonly=1)
     expiry_date = fields.Date(readonly=1)
-    expiry_email = fields.Boolean(related='membership_id.expiry_email')
+    expiry_email = fields.Boolean()
 
     nb_of_borrowed_book = fields.Integer(compute='_compute_nb_of_borrowed_book')
     nb_days_late = fields.Integer(readonly=1)
@@ -215,6 +215,12 @@ class Members(models.Model):
         template = self.env.ref("My_Library.membership_terminated_mail_template")
         members = self.search([])
         for rec in members:
-            if rec.borrowed_book_ids:
-                if rec.email and rec.membership_id and rec.membership_id.expiry_email and rec.membership_id.expiry_date > fields.date.today():
+            print(rec.expiry_email)
+            print(rec.expiry_date)
+            print(rec.email)
+            print(rec.membership_id)
+            if rec.email and rec.expiry_email and fields.date.today() < rec.expiry_date:
+                print("hello")
+                day = (rec.expiry_date - fields.Date.today()).days
+                if day == 1:
                     template.send_mail(rec.id, force_send=True)

@@ -14,6 +14,7 @@ class Authors(models.Model):
     name = fields.Char(required=True)
     biography = fields.Text()
     books_written = fields.One2many('library.book', 'author_id')
+    book_title = fields.Char(related='books_written.title')
     image = fields.Image()
     number_books = fields.Integer('Nombre of books written', compute='_compute_number_books', store=1)
 

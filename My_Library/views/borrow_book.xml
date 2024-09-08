@@ -22,7 +22,7 @@
             <form>
                 <header>
                     <button name="action_borrow_book" type="object" class="btn btn-secondary" string="Borrow The Book"
-                    attrs="{'invisible':['|', ('states', '==', 'borrowed'), ('states', '==', 'overdue')]}"/>
+                    attrs="{'invisible':['|', ('states', '==', 'borrowed'), '|', ('states', '==', 'overdue'), ('states', '==', 'returned')]}"/>
                     <button name="action_return_book" type="object" class="btn btn-secondary" string="Return The Book"
                     attrs="{'invisible':['|', ('states', '==', 'draft'), ('states', '==', 'returned')]}"/>
                     <field name="states" widget="statusbar"/>
@@ -40,7 +40,7 @@
                         <group string="Book Details">
                             <field name="book_id" domain="[('nb_book_available', '>' , 0)]"/>
                             <field name="isbn"/>
-                            <field name="book_image" widget="image" style="width:200px;height:200px"/>
+                            <field name="book_image" widget="image" style="width:100px;height:100px;margin-bottom:100px"/>
                             <field name="user_id"/>
                             <field name="active" invisible="1"/>
                         </group>

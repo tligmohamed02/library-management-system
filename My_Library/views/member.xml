@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
-
     <record id="member_view_form" model="ir.ui.view">
         <field name="name">member.form</field>
         <field name="model">res.partner</field>
@@ -40,6 +38,7 @@
                         <field name="delay_penalty"/>
                         </group>
                         <group string="Membership Details">
+                            <field name="membership_id" invisible="1"/>
                             <field name="membership_number"/>
                             <field name="expiry_date"/>
                         </group>
@@ -171,7 +170,7 @@
         <field name="name">Members</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">res.partner</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,kanban</field>
         <field name="context">{'tree_view_ref': 'My_Library.member_view_trees',
             'form_view_ref': 'My_Library.member_view_form'}</field>
 

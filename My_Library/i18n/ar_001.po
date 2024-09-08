@@ -649,7 +649,7 @@ msgstr "رمز Font Awesome على سبيل المثال fa-tasks"
 #: model:ir.ui.view,arch_db:My_Library.library_book_view_form
 #: model:ir.ui.view,arch_db:My_Library.member_view_form
 msgid "General Info"
-msgstr "معلومات عامة"
+msgstr " معلومات عامة"
 
 #. module: My_Library
 #: model:ir.model.fields,field_description:My_Library.field_library_author__has_message

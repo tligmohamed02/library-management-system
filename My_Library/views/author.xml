@@ -87,6 +87,7 @@
                 <field name="biography"/>
                 <field name="id"/>
                 <field name="image"/>
+                <field name="book_title"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div t-attf-class="oe_kanban_global_click">
@@ -103,6 +104,10 @@
                                         Name :
                                         <field name="name"/>
                                     </li>
+                                    <li>
+                                        Books written :
+                                        <field name="book_title"/>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -111,7 +116,6 @@
             </kanban>
         </field>
     </record>
-
 
     <record id="view_library_author_graph" model="ir.ui.view">
         <field name="name">library.author.graph</field>

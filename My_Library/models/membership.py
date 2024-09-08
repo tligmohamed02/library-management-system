@@ -4,6 +4,11 @@ from odoo.exceptions import ValidationError
 
 
 class Membership(models.Model):
+    """
+        Modèle représentant l'adhésion dans la bibliothèque.
+        Hérite des fonctionnalités de suivi d'activité et de messagerie d'Odoo.
+        """
+
     _name = 'library.membership'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'ref'
@@ -24,6 +29,11 @@ class Membership(models.Model):
 
     @api.onchange('membership_type')
     def _compute_renewal_amount(self):
+        """
+                Calcule le montant de renouvellement et la date d'expiration en fonction du type d'adhésion sélectionné.
+                Met à jour la date d'expiration et le montant de renouvellement pour le membre concerné.
+                """
+
         renewal_amount_monthly = self.env['ir.config_parameter'].get_param('My_Library.renewal_amount_monthly')
         renewal_amount_semestry = self.env['ir.config_parameter'].get_param('My_Library.renewal_amount_semestry')
         renewal_amount_yearly = self.env['ir.config_parameter'].get_param('My_Library.renewal_amount_yearly')
@@ -59,17 +69,28 @@ class Membership(models.Model):
 
 
 
-    # draft lazemha tetna7a
+
     def membership_states_cron(self):
+        """
+                Action de cron pour vérifier les adhésions expirées et mettre à jour leur état à 'expired'.
+                Désactive également le membre associé et met à jour son état.
+                """
+
         memberships = self.search([])
         for rec in memberships:
-            if rec.states == 'active' or rec.states == 'draft':
+            if rec.states == 'active':
                 if fields.Date.today() > rec.expiry_date:
                     rec.states = 'expired'
                     rec.active = False
                     rec.member_id.states = 'terminated'
 
     def action_renew_membership(self):
+        """
+               Action pour renouveler l'adhésion du membre.
+               Vérifie qu'il n'y a pas d'autres adhésions actives pour ce membre.
+               Met à jour l'état de l'adhésion et les informations du membre.
+               """
+
         memberships = self.search([])
         count = 0
         for rec in memberships:
@@ -80,13 +101,23 @@ class Membership(models.Model):
         else:
             self.states = 'active'
             self.member_id.states = 'active'
+            self.member_id.expiry_date = self.expiry_date
+            self.member_id.membership_number = self.membership_number
+            self.member_id.expiry_email = self.expiry_email
+
+
+
+
 
 
     @api.constrains('member_id', 'membership_number')
     def check_member_membership_number(self):
+        """
+               Contrainte de validation pour vérifier que le numéro d'adhésion est unique et correct.
+               """
+
         memberships = self.search([])
         for rec in memberships:
-            # if rec.states == 'active':
             if rec.member_id == self.member_id and not (rec.membership_number == self.membership_number):
                 raise ValidationError('The Membership Number Is Not Correct!!')
             elif not rec.member_id == self.member_id and rec.membership_number == self.membership_number:
@@ -97,40 +128,13 @@ class Membership(models.Model):
 
     @api.model_create_multi
     def create(self, vals):
-        res = super(Membership, self).create(vals)
-        memberships = res.search([])
+        """
+               Méthode de création personnalisée pour l'adhésion.
+               Attribue une référence unique en utilisant une séquence si la référence est 'New'.
+               """
 
+        res = super(Membership, self).create(vals)
         if res.ref == 'New':
             res.ref = self.env['ir.sequence'].next_by_code('membership-seq')
-
         return res
 
-        # members = self.env['res.partner'].search([])
-        # memberships = res.search([])
-        # count = 0
-
-        # for rec in memberships:
-        #     if rec.membership_number
-        # if res.states == 'expired' :
-
-
-
-        #
-        # for rec in memberships:
-        #     if rec.membership_number == member.membership_number:
-        #         count += 1
-        # if count > 1:
-        #     raise ValidationError('Membership Number Already Exists !')
-        # count = 0
-        # for rec1 in memberships:
-        #     if rec1.member_id == member:
-        #         count += 1
-        # if count > 1:
-        #     raise ValidationError('Member is already have a membership')
-        # else:
-        #     member.membership_number = res.membership_number
-        #     member.expiry_date = res.expiry_date
-        #     member.states = 'active'
-        #     member.membership_id = res.id
-        #     res.membership_number_readonly = 1
-        #     return res

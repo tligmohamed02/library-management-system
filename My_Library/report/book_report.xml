@@ -15,16 +15,28 @@
                <t t-call="web.external_layout">
                     <t t-foreach="docs" t-as="rec">
                          <h1 style="text-align:center">Borrow Book Report</h1>
-                         <h3>Book Details</h3>
-                         <div style="margin:30px">
-                              <span>book title : </span>
-                              <span><t t-esc="rec.book_id.title"/></span>
-                         </div>
-                          <div style="margin:30px">
-                              <span>book ISBN : </span>
-                              <span><t t-esc="rec.isbn"/></span>
-                         </div>
-                         <h3>Members Details</h3>
+                        <hr/>
+                        <div style="text-align:center">
+                            <img alt="img"  t-att-src="image_data_uri(rec.members_image)"
+                             style="max-height:180px"/>
+                            </div>
+                        <hr/>
+                        <hr/>
+                         <h4>Book Details</h4>
+                                <div style="margin:30px;">
+                                    <span>book title :</span>
+                                    <span>
+                                        <t t-esc="rec.book_id.title"/>
+                                    </span>
+                                </div>
+                                <div style="margin:30px">
+                                    <span>book ISBN :</span>
+                                    <span>
+                                        <t t-esc="rec.isbn"/>
+                                    </span>
+                                </div>
+                        <hr/>
+                         <h4>Members Details</h4>
                           <div style="margin:30px">
                               <span>Members Name  : </span>
                               <span><t t-esc="rec.members_id.name"/></span>
@@ -37,7 +49,8 @@
                               <span>Membership Expiry Date  : </span>
                               <span><t t-esc="rec.members_id.expiry_date"/></span>
                          </div>
-                         <h3>Borrowed Details</h3>
+                        <hr/>
+                         <h4>Borrowed Details</h4>
                           <div style="margin:30px">
                               <span>Date From  : </span>
                               <span><t t-esc="rec.date_from"/></span>

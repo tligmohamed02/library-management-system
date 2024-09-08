@@ -67,6 +67,17 @@ class Book(models.Model):
             else:
                 rec.states = 'not_available'
 
+    def book_states(self):
+        """
+                Met à jour l'état du livre automatiquement en fonction du nombre de livres disponibles.
+         """
+        books = self.search([])
+        for rec in books:
+            if rec.nb_book_available > 0:
+                rec.states = 'available'
+            else:
+                rec.states = 'not_available'
+
 
     @api.model_create_multi
     def create(self, vals):
